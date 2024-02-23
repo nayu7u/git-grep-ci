@@ -1,0 +1,2 @@
+doc/foo.txt:bar
+doc/foo.txt:fuga
