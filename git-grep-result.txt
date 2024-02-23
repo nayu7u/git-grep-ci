@@ -1,2 +1,2 @@
-doc/foo.txt:bar
-doc/foo.txt:fuga
+doc/foo.txt:2:bar
+doc/foo.txt:4:fuga
