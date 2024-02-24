@@ -7,11 +7,7 @@ while read file_path_line
 do
   FILE_PATH=$(echo ${file_path_line} | cut -d ":" -f 1)
   LINE=$(echo ${file_path_line} | cut -d ":" -f 2)
-  COMMIT=$(git log -i --pretty=format:%H -- $FILE_PATH)
-
-  # echo $FILE_PATH
-  # echo $LINE
-  # echo $COMMIT
+  COMMIT=$(git log -i --pretty=format:%H -- $FILE_PATH | head -n 1)
 
   if [ ! -e $FILE_PATH ] ; then
     continue
@@ -19,3 +15,4 @@ do
 
   echo $REPO_URL/$COMMIT/$FILE_PATH#L$LINE"\n"
 done > $GIT_ROOT/doc/annotations.md
+sed -i '${/^$/d}' $GIT_ROOT/doc/annotations.md
