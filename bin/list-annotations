@@ -1,7 +1,21 @@
 TAG="fo"
-REPO_URL="https://github.com/nayu7u/git-grep-ci.git/"
+REPO_URL="https://github.com/nayu7u/git-grep-ci/blob"
 GIT_ROOT=$(git rev-parse --show-superproject-working-tree --show-toplevel | head -n1)
+
 git grep -n $TAG |
-cut -d ":" -f 1,2 |
-sed -e 's/:/#L/g' |
-xargs -I{} echo $REPO_URL{} > $GIT_ROOT/doc/annotations.md
+while read file_path_line
+do
+  FILE_PATH=$(echo ${file_path_line} | cut -d ":" -f 1)
+  LINE=$(echo ${file_path_line} | cut -d ":" -f 2)
+  COMMIT=$(git log -i --pretty=format%H -- $FILE_PATH)
+
+  # echo $FILE_PATH
+  # echo $LINE
+  # echo $COMMIT
+
+  if [ ! -e $FILE_PATH ] ; then
+    continue
+  fi
+
+  echo $REPO_URL/$COMMIT/$FILE_PATH#L$LINE
+done > $GIT_ROOT/doc/annotations.md
