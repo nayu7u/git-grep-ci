@@ -1,3 +1,7 @@
 TAG="fo"
+REPO_URL="https://github.com/nayu7u/git-grep-ci.git/"
 GIT_ROOT=$(git rev-parse --show-superproject-working-tree --show-toplevel | head -n1)
-git grep $TAG > $GIT_ROOT/doc/annotations.md
+git grep -n $TAG |
+cut -d ":" -f 1,2 |
+sed -e 's/:/#L/g' |
+xargs -I{} echo $REPO_URL{} > $GIT_ROOT/doc/annotations.md
