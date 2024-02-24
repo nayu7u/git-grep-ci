@@ -1,0 +1,3 @@
+TAG="fo"
+GIT_ROOT=$(git rev-parse --show-superproject-working-tree --show-toplevel | head -n1)
+git grep $TAG > $GIT_ROOT/doc/annotations.md
